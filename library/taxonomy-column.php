@@ -13,7 +13,7 @@
  **/
 function i3pg_column_header($column) {
 
-    $column['pictogram'] = __('Pictogram', 'my_plugin');
+    $column['pictogram'] = __('Pictogram', 'i3pp-plugin');
     return $column;
 
 }
@@ -36,7 +36,7 @@ function i3pg_column_content($deprecated,$column_name,$term_id){
 
 		if (empty($images)) { // If there is no image, display this text
 
-				$column_content = '<strong> No image </strong><br><a href="'.get_edit_term_link( $t_id, 'i3_product_features', 'product' ).'" class="button">Add</a>';
+				$column_content = '<strong> '. __('No image', 'i3pp-plugin') .'</strong><br><a href="'.get_edit_term_link( $t_id, 'i3_product_features', 'product' ).'" class="button">'. __('Add', 'i3pp-plugin') .'</a>';
 
 		} else { // If there is an image, display it now 
 
@@ -47,7 +47,7 @@ function i3pg_column_content($deprecated,$column_name,$term_id){
 				$term_edit_link = get_edit_term_link( $t_id, 'i3-product-features', 'product' );
 
 				// show image
-				$column_content = '<a href="'.get_edit_term_link( $t_id, 'i3_product_features', 'product' ).'" title="'.__('Edit', '').'"><img src="'.$src.'" alt="'.$term->name.'"/></a>';
+				$column_content = '<a href="'.get_edit_term_link( $t_id, 'i3_product_features', 'product' ).'" title="'.__('Edit', 'i3pp-plugin').'"><img src="'.$src.'" alt="'.$term->name.'"/></a>';
 
 			}
 

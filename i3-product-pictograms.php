@@ -4,7 +4,7 @@ Plugin Name: i3 Product Pictograms
 Plugin URI: -
 Description: Create and add custom pictograms to your WooCommerce products.
 Author: Mo
-Version: 1.1
+Version: 1.2
 Author URI: -
 */
 
@@ -49,6 +49,8 @@ add_action( 'admin_enqueue_scripts', 'i3pp_admin_styles' );
 function i3pp_front_styles() {
     if ( ! is_admin() ) {
         wp_enqueue_style( 'i3pp-styles', plugins_url('/library/css/style.css', __FILE__) );
+
+        wp_enqueue_script( 'i3pp-tooltip', plugins_url('/library/js/tooltip.js', __FILE__) );
     }    
 }
 add_action('wp_enqueue_scripts', 'i3pp_front_styles');
@@ -68,27 +70,27 @@ include_once( dirname( __FILE__ ) . '/library/taxonomy-column.php' );
 /**
  * 4 - Register custom taxonomy
  **/
-if ( ! function_exists( 'i3_features_taxonomy' ) ) {
+if ( ! function_exists( 'i3_pictograms_taxonomy' ) ) {
 
 // Register Custom Taxonomy
-function i3_features_taxonomy() {
+function i3_pictograms_taxonomy() {
 
 	$labels = array(
-		'name'                       => _x( 'Product Features', 'Taxonomy General Name', 'i3_features_plugin' ),
-		'singular_name'              => _x( 'Product Feature', 'Taxonomy Singular Name', 'i3_features_plugin' ),
-		'menu_name'                  => __( 'Pictograms', 'i3_features_plugin' ),
-		'all_items'                  => __( 'All Items', 'i3_features_plugin' ),
-		'parent_item'                => __( 'Parent Item', 'i3_features_plugin' ),
-		'parent_item_colon'          => __( 'Parent Item:', 'i3_features_plugin' ),
-		'new_item_name'              => __( 'New Item Name', 'i3_features_plugin' ),
-		'add_new_item'               => __( 'Add New Item', 'i3_features_plugin' ),
-		'edit_item'                  => __( 'Edit Item', 'i3_features_plugin' ),
-		'update_item'                => __( 'Update Item', 'i3_features_plugin' ),
-		'separate_items_with_commas' => __( 'Separate items with commas', 'i3_features_plugin' ),
-		'search_items'               => __( 'Search Items', 'i3_features_plugin' ),
-		'add_or_remove_items'        => __( 'Add or remove items', 'i3_features_plugin' ),
-		'choose_from_most_used'      => __( 'Choose from the most used items', 'i3_features_plugin' ),
-		'not_found'                  => __( 'Not Found', 'i3_features_plugin' ),
+		'name'                       => _x( 'Product Pictograms', 'Taxonomy General Name', 'i3pp-plugin' ),
+		'singular_name'              => _x( 'Product Pictogram', 'Taxonomy Singular Name', 'i3pp-plugin' ),
+		'menu_name'                  => __( 'Pictograms', 'i3pp-plugin' ),
+		'all_items'                  => __( 'All Pictograms', 'i3pp-plugin' ),
+		'parent_item'                => __( 'Parent Pictogram', 'i3pp-plugin' ),
+		'parent_item_colon'          => __( 'Parent Pictogram:', 'i3pp-plugin' ),
+		'new_item_name'              => __( 'New Pictogram Name', 'i3pp-plugin' ),
+		'add_new_item'               => __( 'Add New Pictogram', 'i3pp-plugin' ),
+		'edit_item'                  => __( 'Edit Pictogram', 'i3pp-plugin' ),
+		'update_item'                => __( 'Update Pictogram', 'i3pp-plugin' ),
+		'separate_items_with_commas' => __( 'Separate Pictograms with commas', 'i3pp-plugin' ),
+		'search_items'               => __( 'Search Pictograms', 'i3pp-plugin' ),
+		'add_or_remove_items'        => __( 'Add or remove Pictograms', 'i3pp-plugin' ),
+		'choose_from_most_used'      => __( 'Choose from the most used Pictograms', 'i3pp-plugin' ),
+		'not_found'                  => __( 'Not Found', 'i3pp-plugin' ),
 	);
 	$args = array(
 		'labels'                     => $labels,
@@ -104,7 +106,7 @@ function i3_features_taxonomy() {
 }
 
 // Hook into the 'init' action
-add_action( 'init', 'i3_features_taxonomy', 0 );
+add_action( 'init', 'i3_pictograms_taxonomy', 0 );
 
 }
 
@@ -128,7 +130,7 @@ function i3_product_pictograms_template(){
 
 		if (empty($images)) { // if there is no image display this
 
-			$img = '<li class="i3-pictogram" style="display:none;"> No image '.$term->name.' </li>';
+			$img = '<li class="i3-pictogram" style="display:none;">'. __('No image', 'i3pp-plugin').$term->name.' </li>';
 
 		} else { // if there is an image, display it 
 

@@ -25,7 +25,7 @@ function i3_ppicto_register_taxonomy_meta_boxes()
 		'fields' => array(                             // List of meta fields
 			// IMAGE
 			array(
-				'name' => 'Pictogram',
+				'name' => __('Pictogram', 'i3pp-plugin'),
 				'id'   => 'image-field',
 				'type' => 'image',
 			),
@@ -71,7 +71,7 @@ class i3_Checkbox_Taxonomy {
 
 
 	public function add_meta_box() {  
-		add_meta_box( 'i3_product_features_id', 'Product Pictograms',array(__CLASS__,'metabox'), static::$post_type ,'normal','core');  
+		add_meta_box( 'i3_product_features_id', __('Product Pictograms','i3pp-plugin'),array(__CLASS__,'metabox'), static::$post_type ,'normal','core');  
 	}  
         
 
@@ -119,7 +119,7 @@ class i3_Checkbox_Taxonomy {
 
 					if (empty($images)) { // If there is no image, display this text
 
-						echo '<li class="no-picto"><strong>'.$term->name.'</strong> has no image.</li>';
+						echo '<li class="no-picto"><strong>'.$term->name.'</strong> '.__('has no image.', 'i3pp-plugin').'</li>';
 
 					} else { // If there is an image, display it 
 
