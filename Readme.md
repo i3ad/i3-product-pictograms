@@ -34,6 +34,11 @@ Insert shortcode `[i3_pictograms]` in product, or template-tag `<?php i3_show_pi
 
 ## Changelog
 
+### 1.2
+*Added js tooltip
+*Added language tags for translation
+*Renamed nearly all labels and some functions
+
 ### 1.1
 * Added Readme
 * File structure
