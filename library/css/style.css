@@ -1,0 +1,9 @@
+
+ul#i3_product_featureschecklist li {
+	display: inline-block;
+	width: 50%;
+}
+
+ul#i3_product_featureschecklist li .checked {
+	border: 2px solid red;
+}
