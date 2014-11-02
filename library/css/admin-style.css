@@ -1,0 +1,36 @@
+
+ul#i3_product_featureschecklist li {
+	display: block;
+	float: left;
+	width: 31%;
+	line-height: 1;
+	margin:0.3em;
+
+}
+
+ul#i3_product_featureschecklist li img {
+	display: block;
+	float: left;
+	margin-right: 0.3em;
+}
+
+ul#i3_product_featureschecklist li.checked {
+	background: #F1F1F1;
+}
+
+.column-pictogram {
+	text-align: center;
+}
+
+/* Clearfix */
+ul#i3_product_featureschecklist:before,
+ul#i3_product_featureschecklist:after {
+    content:"";
+    display:table;
+}
+ul#i3_product_featureschecklist:after {
+    clear:both;
+}
+ul#i3_product_featureschecklist {
+    zoom:1; /* For IE 6/7 (trigger hasLayout) */
+}

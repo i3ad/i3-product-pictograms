@@ -53,7 +53,7 @@ add_action( 'admin_init', 'i3_ppicto_register_taxonomy_meta_boxes' );
 class i3_Checkbox_Taxonomy {
 	static $taxonomy = 'i3_product_features';
 	static $taxonomy_metabox_id = 'i3_product_featuresdiv';
-	static $post_type= 'post'; //Change the post-type here
+	static $post_type= 'product'; //Change the post-type here
 
 	public function load(){
 		//Remove old taxonomy meta box  
@@ -119,7 +119,7 @@ class i3_Checkbox_Taxonomy {
 
 					if (empty($images)) { // If there is no image, display this text
 
-						$src = '<span style="background:red;color:white;"> No image added! </span>';
+						echo '<li class="no-picto"><strong>'.$term->name.'</strong> has no image.</li>';
 
 					} else { // If there is an image, display it 
 
@@ -129,26 +129,26 @@ class i3_Checkbox_Taxonomy {
 
 							$src = '<img src="'.$src.'" title="'.$term->name.'" alt="'.$term->name.'"/>';
 						}
+
+						//Define checked state
+						if (in_array($term->term_id, $array_post_term_ids)) {
+	                        $checked = "checked = ''";
+	                        $is_checked = "checked";
+	                    }
+	                    else {
+	                        $checked = "";
+	                        $is_checked = "";
+	                    }
+
+	                    //Display the list-item
+	       				$id = $taxonomy.'-'.$term->term_id;
+					    	echo "<li id='$id' class='$is_checked'><label class='selectit'>";
+					        echo $src;
+					        echo "<input type='checkbox' id='in-$id' name='{$name}' {$checked} value='{$term->term_id}' />$term->name<br />";
+					        echo "</label></li>";
 						
 					} //End if images is empty
 					//End get the taxonomy image
-
-					//Define checked state
-					if (in_array($term->term_id, $array_post_term_ids)) {
-                        $checked = "checked = ''";
-                        $is_checked = "checked";
-                    }
-                    else {
-                        $checked = "";
-                        $is_checked = "";
-                    }
-
-                    //Display the list-item
-       				$id = $taxonomy.'-'.$term->term_id;
-				    	echo "<li id='$id' class=''><label class='selectit'>";
-				        echo "<span style='float:left;' class='$is_checked'>".$src."</span>";
-				        echo "<input type='checkbox' id='in-$id' name='{$name}' {$checked} value='{$term->term_id}' />$term->name<br />";
-				        echo "</label></li>";
 
 		       	 }?>
 

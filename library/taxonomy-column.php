@@ -36,7 +36,7 @@ function i3pg_column_content($deprecated,$column_name,$term_id){
 
 		if (empty($images)) { // If there is no image, display this text
 
-				$column_content = '<span style="background:red;color:white;"> No image </span><br><a href="'.get_edit_term_link( $t_id, 'i3_product_features', 'post' ).'" class="button">Add image</a>';
+				$column_content = '<strong> No image </strong><br><a href="'.get_edit_term_link( $t_id, 'i3_product_features', 'product' ).'" class="button">Add</a>';
 
 		} else { // If there is an image, display it now 
 
@@ -44,10 +44,10 @@ function i3pg_column_content($deprecated,$column_name,$term_id){
 
 				$src = wp_get_attachment_image_src($att, 'i3-product-pictogram');
 				$src = $src[0];
-				$term_edit_link = get_edit_term_link( $t_id, 'i3-product-features', 'post' );
+				$term_edit_link = get_edit_term_link( $t_id, 'i3-product-features', 'product' );
 
 				// show image
-				$column_content = '<a href="'.get_edit_term_link( $t_id, 'i3_product_features', 'post' ).'" title="Edit"><img src="'.$src.'" alt="'.$term->name.'"/></a>';
+				$column_content = '<a href="'.get_edit_term_link( $t_id, 'i3_product_features', 'product' ).'" title="'.__('Edit', '').'"><img src="'.$src.'" alt="'.$term->name.'"/></a>';
 
 			}
 

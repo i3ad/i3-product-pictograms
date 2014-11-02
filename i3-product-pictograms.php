@@ -2,9 +2,9 @@
 /*
 Plugin Name: i3 Product Pictograms
 Plugin URI: -
-Description: Add Product-Feature-Pictograms
+Description: Create and add custom pictograms to your WooCommerce products.
 Author: Mo
-Version: 0.1
+Version: 1.1
 Author URI: -
 */
 
@@ -13,8 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 /**
  * TABLE OF CONTENT
  *
- * 1 - Define language files
- * 2 - Add custom image-size
+ * 1 - Init function
+ * 2 - Register scripts
  * 3 - Include files
  * 4 - Register custom taxonomy
  * 5 - Frontpage template function
@@ -23,21 +23,35 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  *
  **/
 
-// let's start by enqueuing our styles correctly
-function i3_pp_admin_styles() {
-    wp_register_style( 'i3_pp_admin_stylesheet', plugins_url( '/library/css/style.css', __FILE__ ) );
-    wp_enqueue_style( 'i3_pp_admin_stylesheet' );
+
+/**
+ * 1 - Init function
+ **/
+function i3pp_init_method() {
+
+	//Load textdomain
+    load_plugin_textdomain('i3pp-plugin', false, basename( dirname( __FILE__ ) ) . '/languages' );
+    
+    //Add custom image-size
+    add_image_size( 'i3-product-pictogram', 60, 60, true );
 }
-add_action( 'admin_enqueue_scripts', 'i3_pp_admin_styles' );
+add_action('init', 'i3pp_init_method');
 
 /**
- * 1 - Define language files
+ * 2 - Register scripts
  **/
+function i3pp_admin_styles() {
+    wp_register_style( 'i3pp_admin_stylesheet', plugins_url( '/library/css/admin-style.css', __FILE__ ) );
+    wp_enqueue_style( 'i3pp_admin_stylesheet' );
+}
+add_action( 'admin_enqueue_scripts', 'i3pp_admin_styles' );
 
-/**
- * 2 - Add custom image-size
- **/
-add_image_size( 'i3-product-pictogram', 60, 60, true );
+function i3pp_front_styles() {
+    if ( ! is_admin() ) {
+        wp_enqueue_style( 'i3pp-styles', plugins_url('/library/css/style.css', __FILE__) );
+    }    
+}
+add_action('wp_enqueue_scripts', 'i3pp_front_styles');
 
 /**
  * 3 - Include files
@@ -62,7 +76,7 @@ function i3_features_taxonomy() {
 	$labels = array(
 		'name'                       => _x( 'Product Features', 'Taxonomy General Name', 'i3_features_plugin' ),
 		'singular_name'              => _x( 'Product Feature', 'Taxonomy Singular Name', 'i3_features_plugin' ),
-		'menu_name'                  => __( 'Product Features', 'i3_features_plugin' ),
+		'menu_name'                  => __( 'Pictograms', 'i3_features_plugin' ),
 		'all_items'                  => __( 'All Items', 'i3_features_plugin' ),
 		'parent_item'                => __( 'Parent Item', 'i3_features_plugin' ),
 		'parent_item_colon'          => __( 'Parent Item:', 'i3_features_plugin' ),
@@ -85,7 +99,7 @@ function i3_features_taxonomy() {
 		'show_in_nav_menus'          => false,
 		'show_tagcloud'              => false,
 	);
-	register_taxonomy( 'i3_product_features', array( 'post' ), $args );
+	register_taxonomy( 'i3_product_features', array( 'product' ), $args );
 
 }
 
@@ -106,11 +120,11 @@ function i3_product_pictograms_template(){
 
 	foreach ($terms as $term) { 
 
- 		$meta1 = get_option('option_name');
-		if (empty($meta1)) $meta1 = array();
-		if (!is_array($meta1)) $meta1 = (array) $meta1;
-		$meta1 = isset($meta1[$term->term_id]) ? $meta1[$term->term_id] : array();
-		$images = $meta1['image-field'];
+ 		$meta = get_option('option_name');
+		if (empty($meta)) $meta = array();
+		if (!is_array($meta)) $meta = (array) $meta;
+		$meta = isset($meta[$term->term_id]) ? $meta[$term->term_id] : array();
+		$images = $meta['image-field'];
 
 		if (empty($images)) { // if there is no image display this
 
@@ -124,7 +138,7 @@ function i3_product_pictograms_template(){
 				$src = $src[0];
 
 				// show image
-				$img = '<li class="i3-pictogram" ><img src="'.$src.'" title="'.$term->name.'"/></li>';
+				$img = '<li class="i3-pictogram '.$term->slug.'" ><img src="'.$src.'" title="'.$term->name.'"/></li>';
 
 			}
 	

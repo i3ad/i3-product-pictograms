@@ -1,9 +1,27 @@
 
-ul#i3_product_featureschecklist li {
-	display: inline-block;
-	width: 50%;
+ul.i3-pictograms {
+	background: #336191;
+	list-style-type: none;
+}
+ul.i3-pictograms li {
+	display: block;
+	float: left;
+	margin: 0;
+	line-height: 1;
+}
+ul.i3-pictograms img {
+	margin: 0.5em;
 }
 
-ul#i3_product_featureschecklist li .checked {
-	border: 2px solid red;
+/* Clearfix */
+ul.i3-pictograms:before,
+ul.i3-pictograms:after {
+    content:"";
+    display:table;
+}
+ul.i3-pictograms:after {
+    clear:both;
+}
+ul.i3-pictograms {
+    zoom:1; /* For IE 6/7 (trigger hasLayout) */
 }
