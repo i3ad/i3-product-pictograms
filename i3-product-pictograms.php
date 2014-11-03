@@ -4,7 +4,7 @@ Plugin Name: i3 Product Pictograms
 Plugin URI: -
 Description: Create and add custom pictograms to your WooCommerce products.
 Author: Mo
-Version: 1.2
+Version: 1.3
 Author URI: -
 */
 
@@ -118,39 +118,43 @@ function i3_product_pictograms_template(){
  
 	$terms = get_the_terms( $post->ID, 'i3_product_features' ); 
 
-	echo '<ul class="i3-pictograms">';
+	if (!empty($terms)) { //Only display if there are terms
 
-	foreach ($terms as $term) { 
+		echo '<ul class="i3-pictograms">';
 
- 		$meta = get_option('option_name');
-		if (empty($meta)) $meta = array();
-		if (!is_array($meta)) $meta = (array) $meta;
-		$meta = isset($meta[$term->term_id]) ? $meta[$term->term_id] : array();
-		$images = $meta['image-field'];
+		foreach ($terms as $term) { 
 
-		if (empty($images)) { // if there is no image display this
+	 		$meta = get_option('option_name');
+			if (empty($meta)) $meta = array();
+			if (!is_array($meta)) $meta = (array) $meta;
+			$meta = isset($meta[$term->term_id]) ? $meta[$term->term_id] : array();
+			$images = $meta['image-field'];
 
-			$img = '<li class="i3-pictogram" style="display:none;">'. __('No image', 'i3pp-plugin').$term->name.' </li>';
+			if (empty($images)) { // if there is no image display this
 
-		} else { // if there is an image, display it 
+				$img = '<li class="i3-pictogram" style="display:none;">'. __('No image', 'i3pp-plugin').__($term->name).' </li>';
 
-			foreach ($images as $att) {
+			} else { // if there is an image, display it 
 
-				$src = wp_get_attachment_image_src($att, 'i3-product-pictogram');
-				$src = $src[0];
+				foreach ($images as $att) {
 
-				// show image
-				$img = '<li class="i3-pictogram '.$term->slug.'" ><img src="'.$src.'" title="'.$term->name.'"/></li>';
+					$src = wp_get_attachment_image_src($att, 'i3-product-pictogram');
+					$src = $src[0];
 
-			}
-	
-		} // end if empty images 
+					// show image
+					$img = '<li class="i3-pictogram '.$term->slug.'" ><img src="'.$src.'" title="'.__($term->name).'"/></li>';
 
-		echo $img;
+				}
+		
+			} // end if empty images 
 
-	}// end foreach term
+			echo $img;
 
-	echo '</ul>';
+		}// end foreach term
+
+		echo '</ul>';
+
+	}// if there are any terms
  
 };// End of function
 

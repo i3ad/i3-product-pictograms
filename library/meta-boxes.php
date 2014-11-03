@@ -66,12 +66,12 @@ class i3_Checkbox_Taxonomy {
 
 
 	public static function remove_meta_box(){  
-   		remove_meta_box(static::$taxonomy_metabox_id, static::$post_type, 'normal');  
+   		remove_meta_box(self::$taxonomy_metabox_id, self::$post_type, 'normal');  
 	} 
 
 
 	public function add_meta_box() {  
-		add_meta_box( 'i3_product_features_id', __('Product Pictograms','i3pp-plugin'),array(__CLASS__,'metabox'), static::$post_type ,'normal','core');  
+		add_meta_box( 'i3_product_features_id', __('Product Pictograms','i3pp-plugin'),array(__CLASS__,'metabox'), self::$post_type ,'normal','core');  
 	}  
         
 
@@ -119,7 +119,7 @@ class i3_Checkbox_Taxonomy {
 
 					if (empty($images)) { // If there is no image, display this text
 
-						echo '<li class="no-picto"><strong>'.$term->name.'</strong> '.__('has no image.', 'i3pp-plugin').'</li>';
+						echo '<li class="no-picto"><strong>'.__($term->name).'</strong> '.__('has no image.', 'i3pp-plugin').'</li>';
 
 					} else { // If there is an image, display it 
 
@@ -127,7 +127,7 @@ class i3_Checkbox_Taxonomy {
 							$src = wp_get_attachment_image_src($att, 'i3-product-pictogram');
 							$src = $src[0];
 
-							$src = '<img src="'.$src.'" title="'.$term->name.'" alt="'.$term->name.'"/>';
+							$src = '<img src="'.$src.'" title="'.__($term->name).'" alt="'.__($term->name).'"/>';
 						}
 
 						//Define checked state
@@ -144,7 +144,7 @@ class i3_Checkbox_Taxonomy {
 	       				$id = $taxonomy.'-'.$term->term_id;
 					    	echo "<li id='$id' class='$is_checked'><label class='selectit'>";
 					        echo $src;
-					        echo "<input type='checkbox' id='in-$id' name='{$name}' {$checked} value='{$term->term_id}' />$term->name<br />";
+					        echo "<input type='checkbox' id='in-$id' name='{$name}' {$checked} value='{$term->term_id}' />".__($term->name)."<br />";
 					        echo "</label></li>";
 						
 					} //End if images is empty
